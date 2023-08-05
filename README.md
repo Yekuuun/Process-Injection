@@ -1,6 +1,6 @@
 # BladeRunner 👺
 
-<strong>This repo contains different well known methods used for process injections on Windows. I created this repository due to my interest for c programming using WinAPi and understanding the intern mecanism of these attack methods.</strong>
+<strong>This repo contains different well known methods used for process injections on Windows. I created this repository due to my interest for c programming using WinAi and understanding the intern mecanism of those techniques.</strong>
 
 ---
 
