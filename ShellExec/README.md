@@ -4,8 +4,10 @@
 
 ### Notice 
 
-To use ShellExec, compile the program in `x64` I do not implemented condition for the 2 type of architecture but only to show how to use this technique.
+To use ShellExec, compile the program in `x64` I didn't implement condition for the 2 types of architecture but only to show how to use this technique.
 Once compiled, run `shellexec.c <PID-PROCESS>` to inject shellcode in destination process and see a message box pop !
+
+#### Have fun !
 
 ---
 
