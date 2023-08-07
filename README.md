@@ -7,7 +7,9 @@
 
 ## What I've Implemented :
 
-<strong>Under construction...</strong>
+🟢 Shellcode injection -> `/ShellExec`
+
+🟢 **Under construction...**
 
 ---
 
