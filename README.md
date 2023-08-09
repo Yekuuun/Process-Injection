@@ -7,9 +7,11 @@
 
 ## What I've Implemented :
 
-🟢 Shellcode injection -> `/ShellExec`
+🟢 **Shellcode injection** -> `/ShellExec`
 
-🟢 **Under construction...**
+🟢 **NTShellExec** -> `/NTShellExec`
+
+🔴 **DLL injection**
 
 ---
 
