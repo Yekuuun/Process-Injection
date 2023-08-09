@@ -12,5 +12,6 @@ NTShellExec is a variant of `ShellExec` but using NT functions like `NTAllocateV
 
 ### Demo
 
-![image](https://github.com/Yekuuun/BladeRunner/assets/126786628/9ea873df-63dd-43f5-a099-de145399059c)
+![image](https://github.com/Yekuuun/BladeRunner/assets/126786628/cfe3633d-1ec2-4f8f-8080-301bba405420)
+
 
