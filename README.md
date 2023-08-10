@@ -7,7 +7,7 @@
 
 ## What I've Implemented :
 
-🟢 **Shellcode injection** -> `/ShellExec`
+🟢 **ShellExec** -> `/ShellExec`
 
 🟢 **NTShellExec** -> `/NTShellExec`
 
