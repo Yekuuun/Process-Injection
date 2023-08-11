@@ -11,11 +11,19 @@
 
 🟢 **NTShellExec** -> `/NTShellExec`
 
-🔴 **DLL injection**
+🟢 **DLL injection** -> `/DLL`
 
 ---
 
 ## Disclaimer 🚨
 
 This project is developped for learning purpose and I'm not responsible of your acts if you decide to use them.
+
+---
+
+### Thanks to these 2 for inspiration :
+
+Arsium => https://github.com/arsium
+Crow => https://github.com/cr-0w
+
 

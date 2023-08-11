@@ -1,3 +1,4 @@
 /ShellExec/shellexec.exe
 /ShellExec/shellexec.obj
 /NTShellExec/build
+/DLL/inject.exe

