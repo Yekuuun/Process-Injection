@@ -23,7 +23,7 @@ This project is developped for learning purpose and I'm not responsible of your 
 
 ### Thanks to these 2 for inspiration :
 
-Arsium => https://github.com/arsium
-Crow => https://github.com/cr-0w
+<a href="https://github.com/arsium">**Arsium**</a> <br>
+<a href="https://github.com/cr-0w">**Crow**</a>
 
 
