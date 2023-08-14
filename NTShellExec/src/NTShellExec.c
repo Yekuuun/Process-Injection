@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <ntstatus.h>
 #include <Windows.h>
 #include "utils.h"
 
