@@ -2,6 +2,8 @@
 
 #include <Windows.h>
 
+#define STATUS_SUCCESS 0x00000000
+
 //------------------SHELLCODE x64 popup messagebox----------------------------------
 //https://github.com/arsium/ShellCodeExec/blob/main/ShellCodeLoader.c
 char shellcode_x64[] = "\x48\x83\xEC\x28\x48\x83\xE4\xF0\x48\x8D\x15\x66\x00\x00\x00"
