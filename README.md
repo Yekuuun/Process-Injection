@@ -1,4 +1,4 @@
-# BladeRunner 👺
+# Process-Injection 👺
 
 <strong>This repo contains different well known basic methods used for process injections on Windows. I created this repository due to my interest for c programming using WinApi and understanding the intern mecanisms of those techniques by implementing some of them.</strong>
 
